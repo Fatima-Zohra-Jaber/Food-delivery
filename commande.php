@@ -29,16 +29,17 @@
     <?php
         if (!empty($plat)) :
             echo '<div>';
+            echo "<img src='images/{$plat['photo']}' alt=''>";
             echo "<h2>".htmlspecialchars($plat['nom'])."</h2>";
             echo "<p>".htmlspecialchars($plat['categorie'])."</p>";
             echo "<p>".htmlspecialchars($plat['prix'])." DH</p>";
             echo '</div>';
     ?>
-    <form method="post">
+    <form method="POST">
         <button type="submit" name="action" value="increment" onclick="changerQuantite('increment')">+</button>
-        <span id="quantite"><?= $quantite ?></span>
+        <span id="quantite"> <?= $quantite ?> </span>
         <button type="submit" name="action" value="decrement" onclick="changerQuantite('decrement')">-</button>
-        <input type="hidden" name="quantite" value="<?= $quantite; ?>" id="qtInput">
+        <input type="hidden" name="quantite" value="<?= $quantite ?>" id="qtInput">
     </form>
 
     <?php

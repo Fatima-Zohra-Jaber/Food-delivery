@@ -2,7 +2,6 @@
 
 let qtSpan = document.getElementById("quantite");
 let quantite = parseInt(qtSpan.innerHTML);
-quantite.innerHTML= qtInput;
 
 function changerQuantite(action){
     if(action === "increment"){
@@ -14,4 +13,18 @@ function changerQuantite(action){
     qtSpan.innerHTML = quantite;
 }
 
+function filterPlats() {
+    let selectedCategories = document.querySelectorAll('.boxCategorie:checked');
+    console.log(selectedCategories);
+    let listCategories = [];
+    selectedCategories.forEach((checkbox) => {
+    listCategories.push(checkbox.value);
+    console.log(checkbox.value);
+
+    });
+
+    let plats = document.querySelectorAll('.plat');
+    let categories = document.querySelectorAll('.categorie');
+   
+}
 

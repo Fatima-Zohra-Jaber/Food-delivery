@@ -18,7 +18,8 @@ CREATE TABLE `plat` (
   `idPlat` int(10) AUTO_INCREMENT PRIMARY KEY,
   `nom` varchar(50) NOT NULL UNIQUE,
   `categorie` varchar(50) NOT NULL,
-  `prix` decimal(6,2) NOT NULL
+  `prix` decimal(6,2) NOT NULL,
+  `photo` varchar(100) 
 )
 
 CREATE TABLE `commande_plat` (
@@ -32,30 +33,26 @@ CREATE TABLE `commande_plat` (
 )
 
 -- Insertion des données
-INSERT INTO `plat` (`nom`, `categorie`, `prix`) VALUES
-('Pastilla au Poulet', 'Marocain', 120.00),
-('Brochettes de Kefta', 'Marocain', 85.00),
-('Rfissa', 'Marocain', 125.00),
-('Pizza Margherita', 'Italien', 85.00),
-('Lasagne', 'Italien', 120.00),
-('Sushi Mix', 'Japonais', 159.99),
-('Ramen', 'Japonais', 105.50),
-('Tacos au bœuf', 'Mexicain', 77.50),
-('Burrito Poulet', 'Mexicain', 95.00),
-('Burger Classique', 'Américain', 89.99),
-('Hot Dog', 'Américain', 55.50),
-('Paella', 'Espagnol', 140.00),
-('Couscous', 'Marocain', 139.99),
-('Spaghetti Carbonara', 'Italien', 95.00),
-('Sushi Mix', 'Japonais', 159.99),
-('Ramen', 'Japonais', 105.50),
-('Tempura Crevettes', 'Japonais', 135.00),
-('Burrito Poulet', 'Mexicain', 95.00),
-('Quesadilla Fromage', 'Mexicain', 80.00),
-('Burger Classique', 'Américain', 89.99),
-('Steakhouse Grill', 'Américain', 160.00),
-('Paella', 'Espagnol', 140.00),
-('Tajine de Poulet', 'Marocain', 110.00);
+INSERT INTO `plat` (`nom`, `categorie`, `prix`, `photo`) VALUES
+('Pastilla au Poulet', 'Marocain', 120.00,"Pastilla-au-poulet.jpg"),
+('Tajine de Kefta', 'Marocain', 85.00, "tagine-kefta.jpg"),
+('Rfissa', 'Marocain', 125.00, "Rfissa.jpg"),
+('Pizza Margherita', 'Italien', 85.00, "Pizza Margherita."),
+('Lasagne', 'Italien', 120.00, ""),
+('Tacos au bœuf', 'Mexicain', 77.50, ""),
+('Burrito Poulet', 'Mexicain', 95.00, ""),
+('Burger Classique', 'Américain', 89.99, "Burger.jpg"),
+('Hot Dog', 'Américain', 55.50, ""),
+('Paella', 'Espagnol', 140.00, "Paella.jpg"),
+('Couscous', 'Marocain', 139.99, "Couscous.jpg"),
+('Spaghetti Carbonara', 'Italien', 95.00, "Spaghetti.jpg"),
+('Sushi Mix', 'Japonais', 159.99, "Sushi.jpg"),
+('Ramen', 'Japonais', 105.50, "Ramen.jpg"),
+('Tempura Crevettes', 'Japonais', 135.00, "Tempura Crevettes.jpg"),
+('Burrito Poulet', 'Mexicain', 95.00, ""),
+('Quesadilla Fromage', 'Mexicain', 80.00, ""),
+('Steakhouse Grill', 'Américain', 160.00, "Steakhouse"),
+('Tajine de Poulet', 'Marocain', 110.00, "");
 
 
 INSERT INTO `client` (`nom`, `prenom`, `tel`) VALUES
