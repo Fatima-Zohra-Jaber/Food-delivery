@@ -13,18 +13,5 @@ function changerQuantite(action){
     qtSpan.innerHTML = quantite;
 }
 
-function filterPlats() {
-    let selectedCategories = document.querySelectorAll('.boxCategorie:checked');
-    console.log(selectedCategories);
-    let listCategories = [];
-    selectedCategories.forEach((checkbox) => {
-    listCategories.push(checkbox.value);
-    console.log(checkbox.value);
 
-    });
-
-    let plats = document.querySelectorAll('.plat');
-    let categories = document.querySelectorAll('.categorie');
-   
-}
 

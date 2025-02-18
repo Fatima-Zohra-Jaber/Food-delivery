@@ -21,6 +21,7 @@ CREATE TABLE `plat` (
   `prix` decimal(6,2) NOT NULL,
   `photo` varchar(100) 
 )
+ALTER TABLE plat ADD COLUMN photo VARCHAR(100);
 
 CREATE TABLE `commande_plat` (
   `idPlat` int(10) NOT NULL,
@@ -37,7 +38,7 @@ INSERT INTO `plat` (`nom`, `categorie`, `prix`, `photo`) VALUES
 ('Pastilla au Poulet', 'Marocain', 120.00,"Pastilla-au-poulet.jpg"),
 ('Tajine de Kefta', 'Marocain', 85.00, "tagine-kefta.jpg"),
 ('Rfissa', 'Marocain', 125.00, "Rfissa.jpg"),
-('Pizza Margherita', 'Italien', 85.00, "Pizza Margherita."),
+('Pizza Margherita', 'Italien', 85.00, "Pizza-Margherita.jpg"),
 ('Lasagne', 'Italien', 120.00, ""),
 ('Tacos au bœuf', 'Mexicain', 77.50, ""),
 ('Burrito Poulet', 'Mexicain', 95.00, ""),
