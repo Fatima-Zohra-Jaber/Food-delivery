@@ -13,5 +13,3 @@ function changerQuantite(action){
     qtSpan.innerHTML = quantite;
 }
 
-
-
