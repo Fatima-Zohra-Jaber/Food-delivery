@@ -1,5 +1,7 @@
 <?php
     include 'config.php';
+    session_start();
+
     // var_dump($plats);
     // error_reporting(E_ALL);
     // ini_set('display_errors', 1);
@@ -10,7 +12,7 @@
         echo "<h4>".htmlspecialchars($plat['nomPlat'])."</h4>";
         echo "<p class='categorie'>".htmlspecialchars($plat['categoriePlat'])."</p>";
         echo "<p>".htmlspecialchars($plat['prix'])." DH</p>";
-        echo "<a href='index.php?idPlat={$plat['idPlat']}'>Commander</a>";
+        echo "<a href='plats.php?idPlat={$plat['idPlat']}'>Commander</a>";
         echo '</div>';                  
     }
 
@@ -60,6 +62,20 @@
             <!-- <input type="text" id="recherche" placeholder="Rechercher" name="inputRecherch"> -->
             <button type="submit" name="submitRecherch" >Rechercher</button>
         </form>
+        <nav>
+            <?php
+            $_SESSION['idClient']=1;
+               if(isset($_SESSION['idClient'])){
+                    echo "<a href='panier.php' class='nav'>Favorite</a>";
+                    echo "<a href='panier.php' class='nav'>Mon panier</a>";
+                    echo "<a href='login.php' class='nav'>Deconnecter</a>";
+               }else{
+                echo "<a href='login.php' class='nav'>Se connecter</a>";
+               }
+            ?>
+        </nav>
+           
+        </div>
     </header>
     
     <main>

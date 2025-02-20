@@ -1,12 +1,9 @@
 <?php
-    session_start();
-    //session_unset();  
-    //session_destroy();  // Détruit complètement la session
-
+    include 'config.php';
+   
     if (!isset($_SESSION['panier'])) {
-        $_SESSION['panier'] = [];
-    }
-
+    $_SESSION['panier'] = [];
+}
           // $panierPlats = [];
         // Ajout d'un plat au panier
         if (isset($_GET['idPlat'])) {
@@ -19,7 +16,6 @@
             // $plat = $plat[0];
             // array_push($panierPlats,$panierplat);
 
-            if ($panierplat) { 
                 $panierplat['quantite'] = 1;
                 $found = false;
                 foreach ($_SESSION['panier'] as &$item) {
@@ -29,10 +25,14 @@
                     }
                     unset($item);
                 }
-            if (!$found) {
-                $_SESSION['panier'][] = $panierplat; 
-            }
-            }
+                if (!$found) {
+                    $_SESSION['panier'][] = $panierplat; 
+                }
+                header("Location: index.php");
+                exit; 
+                // $_GET['idPlat']=null;
+        //   header("refresh:1;url=index.php");
+
         }
     
         // if (isset($_POST['id']) && isset($_POST['action'])) {

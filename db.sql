@@ -72,9 +72,9 @@ INSERT INTO commande (idCmd, dateCmd, Statut, idCl) VALUES
 
 INSERT INTO plat (nomPlat, categoriePlat, TypeCuisine, prix, image) VALUES
 -- Cuisine Marocaine
-('Couscous Royal', 'plat principal', 'Marocaine', 120.00, 'couscous.jpg'),
-('Tajine de Poulet aux Citrons', 'plat principal', 'Marocaine', 110.00, 'tajine_poulet.jpg'),
-('Harira', 'entrée', 'Marocaine', 40.00, 'harira.jpg'),
+('Couscous Royal', 'plat principal', 'Marocaine', 120.00, 'couscous.jpeg'),
+('Tajine de Poulet aux Citrons', 'plat principal', 'Marocaine', 110.00, 'tajine_poulet.jpeg'),
+('Harira', 'entrée', 'Marocaine', 40.00, 'harira.jpeg'),
 ('Briouates au Fromage', 'entrée', 'Marocaine', 50.00, 'briouates.jpg'),
 ('Sellou', 'dessert', 'Marocaine', 45.00, 'sellou.jpg'),
 ('Chebakia', 'dessert', 'Marocaine', 35.00, 'chebakia.jpg'),
@@ -91,8 +91,8 @@ INSERT INTO plat (nomPlat, categoriePlat, TypeCuisine, prix, image) VALUES
 ('Canard Laqué', 'plat principal', 'Chinoise', 150.00, 'canard_laque.jpg'),
 ('Riz Cantonais', 'plat principal', 'Chinoise', 80.00, 'riz_cantonais.jpg'),
 ('Nems au Poulet', 'entrée', 'Chinoise', 60.00, 'nems.jpg'),
-('Dim Sum', 'entrée', 'Chinoise', 75.00, 'dimsum.jpg'),
-('Perles de Coco', 'dessert', 'Chinoise', 40.00, 'perles_coco.jpg'),
+('Dim Sum', 'entrée', 'Chinoise', 75.00, 'dimsum.jpeg'),
+('Perles de Coco', 'dessert', 'Chinoise', 40.00, 'perles_coco.jpeg'),
 ('Nougat Chinois', 'dessert', 'Chinoise', 45.00, 'nougat_chinois.jpg'),
 
 -- Cuisine Espagnole
@@ -100,7 +100,7 @@ INSERT INTO plat (nomPlat, categoriePlat, TypeCuisine, prix, image) VALUES
 ('Gazpacho', 'entrée', 'Espagnole', 50.00, 'gazpacho.jpg'),
 ('Tortilla Espagnole', 'entrée', 'Espagnole', 55.00, 'tortilla.jpg'),
 ('Churros au Chocolat', 'dessert', 'Espagnole', 40.00, 'churros.jpg'),
-('Flan Espagnol', 'dessert', 'Espagnole', 45.00, 'flan_espagnol.jpg'),
+('Flan Espagnol', 'dessert', 'Espagnole', 45.00, 'flan_espagnol.jpeg'),
 ('Crema Catalana', 'dessert', 'Espagnole', 50.00, 'crema_catalana.jpg'),
 
 -- Cuisine Française
