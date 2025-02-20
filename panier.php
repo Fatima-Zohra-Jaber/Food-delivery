@@ -1,7 +1,7 @@
 <?php
     session_start();
-    // session_unset();  
-    // session_destroy();  // Détruit complètement la session
+    //session_unset();  
+    //session_destroy();  // Détruit complètement la session
 
     if (!isset($_SESSION['panier'])) {
         $_SESSION['panier'] = [];
@@ -20,13 +20,14 @@
             // array_push($panierPlats,$panierplat);
 
             if ($panierplat) { 
-                $panierplat['quantite'] = isset($_POST['quantite']) ? (int) $_POST['quantite'] : 1;
+                $panierplat['quantite'] = 1;
                 $found = false;
                 foreach ($_SESSION['panier'] as &$item) {
                     if ($item['idPlat'] == $panierplat['idPlat']) {
-                        $item['quantite'] += $panierplat['quantite']; 
+                        $item['quantite'] += 1 ; 
                         $found = true;
                     }
+                    unset($item);
                 }
             if (!$found) {
                 $_SESSION['panier'][] = $panierplat; 
@@ -34,28 +35,46 @@
             }
         }
     
+        // if (isset($_POST['id']) && isset($_POST['action'])) {
+        //     $id = (int) $_POST['id'];
+        //     foreach ($_SESSION['panier'] as $index => $plat) {
+        //         if ($plat['idPlat'] == $id) {
+        //             if ($_POST['action'] == 'increment') {
+        //                 $plat['quantite']++;
+        //             } elseif ($_POST['action'] == 'decrement' && $plat['quantite'] > 1) {
+        //                 $plat['quantite']--;
+        //             }  elseif ($_POST['action'] == 'supprimer') {
+        //                 unset($_SESSION['panier'][$index]); 
+        //                 $_SESSION['panier'] = array_values($_SESSION['panier']); // Réindexation
+                        
+        //             }
+        //         }  
+        //     }      
+        // }   
     if (isset($_POST['index']) && isset($_POST['action'])) {
         $index = (int) $_POST['index'];
-
+        // var_dump($_SESSION['panier']);
+        // echo "</br> index: $index </br>";
+        // var_dump($_SESSION['panier'][$index]);
         if ($_POST['action'] == 'increment') {
             $_SESSION['panier'][$index]['quantite']++;
         } elseif ($_POST['action'] == 'decrement' && $_SESSION['panier'][$index]['quantite'] > 1) {
             $_SESSION['panier'][$index]['quantite']--;
         }  elseif ($_POST['action'] == 'supprimer') {
-            unset($_SESSION['panier'][$index]); 
-            // $_SESSION['panier'] = array_values($_SESSION['panier']); // pour réindexer le tableau
-
+            array_splice($_SESSION['panier'], $index, 1);//le tableau est réindexé automatiquement
+            //unset($_SESSION['panier'][$index]); // La fonction ne réorganise pas les index
+            //$_SESSION['panier'] = array_values($_SESSION['panier']); // Réindexation
+            
         }
-
     }
 
-        function calculTotal(){
-            $total = 0;
-            foreach($_SESSION['panier'] as $plat){
-                $total += $plat['prix'] * $plat['quantite'];
-            }
-            return $total;
+    function calculTotal(){
+        $total = 0;
+        foreach($_SESSION['panier'] as $plat){
+            $total += $plat['prix'] * $plat['quantite'];
         }
+        return $total;
+    }
 ?>
     
 <h2 id="count">Votre Panier (<?= count($_SESSION['panier']) ?>)</h2>
