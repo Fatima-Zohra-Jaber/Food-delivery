@@ -6,25 +6,21 @@
         $sqlId = "SELECT max(idClient) as maxId from client";
         $stmtId = $conn->query($sqlId);
         $maxId = $stmtId->fetch(PDO::FETCH_ASSOC);
-        if(isset($maxId)){
-            $id = $maxId + 1;
-        }else{
+        if(empty($maxId['maxId'] )){
             $id = 1;
+        }else{
+            $id = $maxId['maxId'] + 1;
         }
         return $id;
     }
     function checkTel(){
         global $conn, $tel;
-        $sqlCheckTel = "SELECT idClient FROM client WHERE tel = :tel";
+        $sqlCheckTel = "SELECT idClient FROM client WHERE telCl = :tel";
         $stmtCheck = $conn->prepare($sqlCheckTel);
         $stmtCheck->bindParam(':tel', $tel);
         $stmtCheck->execute();
-        $resultCheck= $stmtCheck->fetch(PDO::FETCH_ASSOC);
-        if(isset($resultCheck)){
-            return true;
-        }else{
-            return false;
-        }
+        $result= $stmtCheck->fetch(PDO::FETCH_ASSOC);
+        return $result;
     }
     $erreurs = [];
     if(isset($_POST['inscrire'])){
@@ -53,13 +49,13 @@
                 $sqlInsetClient = "INSERT into client values(:idCl,:nom,:prenom,:tel)";
                 $stmtInsertClient = $conn->prepare($sqlInsetClient);
                 $idCl = getIdClient();
-                $stmtInsertClient->bindParam(':idCl', $idCl);
-                $stmtInsertClient->bindParam(':nom', $nom);
-                $stmtInsertClient->bindParam(':prenom', $prenom);
-                $stmtInsertClient->bindParam(':tel', $tel);
+                $stmtInsertClient->bindParam(':idCl', $idCl, PDO::PARAM_INT);
+                $stmtInsertClient->bindParam(':nom', $nom, PDO::PARAM_STR);
+                $stmtInsertClient->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+                $stmtInsertClient->bindParam(':tel', $tel, PDO::PARAM_STR);
                 $stmtInsertClient->execute();
 
-                header("Location: index.php");
+                header("Location: login.php");
                 exit();
              }
         }
@@ -84,7 +80,7 @@
     <form action="" method="POST">
         <input type="text" placeholder="Nom" name="nom" />
         <span class="erreur"><?= $erreurs['nom'] ?? '' ?></span>
-        <input type="text" placeholder="¨Prénom" name="prenom" />
+        <input type="text" placeholder="Prénom" name="prenom" />
         <span class="erreur"><?= $erreurs['prenom'] ?? '' ?></span>
         <input type="tel" placeholder="N° téléphone" name="tel" />
         <span class="erreur"><?= $erreurs['tel'] ?? '' ?></span>

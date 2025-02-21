@@ -1,9 +1,16 @@
 <?php
     include 'config.php';
-   
+    
+    session_start(); 
+
+    if (!isset($_SESSION['client'])) {
+        header("Location: login.php"); 
+        exit;
+    }
+
     if (!isset($_SESSION['panier'])) {
     $_SESSION['panier'] = [];
-}
+    }
           // $panierPlats = [];
         // Ajout d'un plat au panier
         if (isset($_GET['idPlat'])) {
@@ -31,7 +38,7 @@
                 header("Location: index.php");
                 exit; 
                 // $_GET['idPlat']=null;
-        //   header("refresh:1;url=index.php");
+                // header("refresh:1;url=index.php");
 
         }
     
@@ -53,9 +60,6 @@
         // }   
     if (isset($_POST['index']) && isset($_POST['action'])) {
         $index = (int) $_POST['index'];
-        // var_dump($_SESSION['panier']);
-        // echo "</br> index: $index </br>";
-        // var_dump($_SESSION['panier'][$index]);
         if ($_POST['action'] == 'increment') {
             $_SESSION['panier'][$index]['quantite']++;
         } elseif ($_POST['action'] == 'decrement' && $_SESSION['panier'][$index]['quantite'] > 1) {
@@ -87,7 +91,6 @@
         <?php
 
         if (!empty($_SESSION['panier'])){
-            // var_dump(($_SESSION['panier']));
             foreach($_SESSION['panier'] as $index => $plat)  {
                 echo '<div class="cartPlat">';
                 echo "<img src='images/{$plat['image']}' alt=''>";

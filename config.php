@@ -1,5 +1,9 @@
 <?php
-  
+    
+
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    
     try{
         $conn = new PDO("mysql:host=localhost;dbname=solirestaurant", "root", 'root');
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -15,7 +19,6 @@
     }catch(PDOException $e){
         die ("Connexion échouée: " . $e->getMessage());
     }
-    
-   
+ 
    
 ?>

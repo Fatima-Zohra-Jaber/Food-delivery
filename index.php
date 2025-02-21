@@ -1,10 +1,7 @@
 <?php
-    include 'config.php';
     session_start();
-
-    // var_dump($plats);
-    // error_reporting(E_ALL);
-    // ini_set('display_errors', 1);
+    $client = $_SESSION['client'];
+    require 'config.php';
 
     function getPlats($plat) {
         echo '<div class="plat">';
@@ -12,23 +9,24 @@
         echo "<h4>".htmlspecialchars($plat['nomPlat'])."</h4>";
         echo "<p class='categorie'>".htmlspecialchars($plat['categoriePlat'])."</p>";
         echo "<p>".htmlspecialchars($plat['prix'])." DH</p>";
-        echo "<a href='plats.php?idPlat={$plat['idPlat']}'>Commander</a>";
+        echo "<a href='index.php?idPlat={$plat['idPlat']}'>Commander</a>";
         echo '</div>';                  
     }
 
     $platsRecherch = [];
-    if(isset($_POST['TypeCuisine']) || ($_POST['categoriePlat']) ){
+    if(isset($_POST['TypeCuisine']) || isset($_POST['categoriePlat']) ){
         $TypeCuisine = $_POST['TypeCuisine'];
         $categoriePlat= $_POST['categoriePlat'];
         $condition='';
         if(!empty($TypeCuisine ) and !empty($categoriePlat)){
-            $condition = " TypeCuisine = '$TypeCuisine' and categoriePlat = '$categoriePlat'";
+            $condition = " TypeCuisine = :TypeCuisine and categoriePlat = :categoriePlat";
         }else{
-            $condition = "TypeCuisine = '$TypeCuisine' or categoriePlat = '$categoriePlat'";
+            $condition = "TypeCuisine = :TypeCuisine or categoriePlat = :categoriePlat";
         }
         $sql = "SELECT * FROM plat WHERE $condition";
         $stmt = $conn->prepare($sql);
-        // echo $sql;
+        $stmt->bindParam(':TypeCuisine', $TypeCuisine, PDO::PARAM_STR);
+        $stmt->bindParam(':categoriePlat', $categoriePlat, PDO::PARAM_STR);
         $stmt->execute();
         $platsRecherch = $stmt->fetchAll(PDO::FETCH_DEFAULT);        
     }
@@ -64,11 +62,10 @@
         </form>
         <nav>
             <?php
-            $_SESSION['idClient']=1;
-               if(isset($_SESSION['idClient'])){
-                    echo "<a href='panier.php' class='nav'>Favorite</a>";
-                    echo "<a href='panier.php' class='nav'>Mon panier</a>";
-                    echo "<a href='login.php' class='nav'>Deconnecter</a>";
+               if(isset($_SESSION['client'])){
+                    echo "<a href='panier.php'>Favorite</a>";
+                    echo "<a href='panier.php'>Mon panier</a>";
+                    echo "<a href='logout.php'>Deconnecter</a>";
                }else{
                 echo "<a href='login.php' class='nav'>Se connecter</a>";
                }
