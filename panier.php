@@ -70,38 +70,35 @@
     
    
    
-<div style="position: fixed; z-index: 9999; inset: 16px; pointer-events: none;"></div>
-   <next-route-announcer style="position: absolute;"></next-route-announcer>
-<div class="fade offcanvas-backdrop show"></div>
-   <div role="dialog" aria-modal="true" class="offcanvas offcanvas-end show" tabindex="-1" id="offcanvasRight" style="visibility: visible;">
-    <div class="border-bottom offcanvas-header">
-        <div class="text-start">
-            <h5 id="offcanvasRightLabel" class="mb-0 fs-4">Votre Panier (<?= count($_SESSION['panier']) ?>)</h5>
-            <small>Location in 382480</small>
-        </div>
-        <button type="button" class="btn-close" aria-label="Close"></button>
-        <!-- <div class="empty-cart" <?php if (!empty($_SESSION['panier'])) echo 'style="display: none;"'; ?>>
-            <img src="" alt="Empty Cart">
-            <p>Aucun Historique de Commande Encore</p>
-        </div> -->
-    </div>
-   
-    
-    
-          
-      
-        <?php
 
-        if (!empty($_SESSION['panier'])){
-            ?>
-            <div class="offcanvas-body">
-      
-      <ul class="list-group list-group-flush">
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart">
+    <div class="offcanvas-header justify-content-center border-bottom">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+    </div>
+    <div class="order-md-last">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-primary">Votre Panier (<?= count($_SESSION['panier']) ?>)</span>
+            <span class="badge bg-primary rounded-pill"><?= count($_SESSION['panier']) ?></span>
+        </h4>
+        <?php if (empty($_SESSION['panier'])){?>
+            <div class="empty-cart">
+                <img src="" alt="Empty Cart">
+                <p>Vous n'avez ajouté aucun produit à votre panier.</p>
+            </div>      
+        <?php }else{ ?>
+            <ul class="list-group mb-3 list-group-flush">
             <?php
-            foreach($_SESSION['panier'] as $index => $plat)  {
-                ?>
-        <li class="py-3 ps-0 border-bottom list-group-item">
-              <div class="align-items-center undefined row">
+            foreach($_SESSION['panier'] as $index => $plat): ?>
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                     <!--  li /*class="py-3 ps-0 border-bottom list-group-item"*/ -->
+                    <!-- <div>
+                        <h6 class="my-0">Growers cider</h6>
+                        <small class="text-body-secondary">Brief description</small>
+                    </div>
+                    <span class="text-body-secondary">$12</span> -->
+                    <div class="align-items-center undefined row">
                   <div class="col-lg-7 col-md-6 col-6">
                       <div class="d-flex">
                           <img src="images/<?=$plat['image']?>" alt="<?=$plat['nomPlat']?>"
@@ -130,41 +127,26 @@
                       <span class="fw-bold"><?=$plat['prix']?></span>
                   </div>                       
               </div>
-          </li>
-        <?php 
-                // echo '<div class="cartPlat">';
-                // echo "<img src='images/{$plat['image']}' alt=''>";
-                // echo "<h5>".htmlspecialchars($plat['nomPlat'])."</h5>";
-                // echo "<p>".htmlspecialchars($plat['prix'])." DH</p>";
-                // ?>
-                <!-- // <form method="POST">
-                //     <button type="submit" name="action" value="increment">+</button>
-                //     <span id="quantite"> <?= $plat['quantite'] ?> </span>
-                //     <button type="submit" name="action" value="decrement">-</button>
-                //     <button type="submit" name="action" value="supprimer">X</button>
-                //     <input type="hidden" name="index" value="<?= $index ?>" >
-
-                // </form> -->
-                // <?php
-                // echo '</div>'; 
-            }
-            ?>
+                </li>
+            <?php endforeach; ?>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (DH)</span>
+                    <strong><?= calculTotal() ?></strong>
+                </li>           
             </ul>
-      <div class="d-flex justify-content-between mt-4">
-          <button type="button" class="btn btn-primary btn-sm">Continue Shopping</button>
-          <button type="button" class="btn btn-dark btn-sm">Proceed To Checkout</button>
-      </div>
-  </div>
-            <?php 
-        }
-        ?>
+            <div class="w-100 btn btn-primary btn-lg" >
+                <a href='confirmation.php'>Confirmation</a>
+            </div>
+        <?php }?>
+    </div>
 </div>
+
+         
+ 
         
-        <div class="total" <?php if (empty($_SESSION['panier'])) echo 'style="display: none;"'; ?> >
+        <!-- <div class="total" <?php if (empty($_SESSION['panier'])) echo 'style="display: none;"'; ?> >
             <span>Total:</span> <span class="total"><?= calculTotal() ?> DH</span>
         </div>
         <div>
         <a href='confirmation.php'>Confirmation</a>
-        </div>
-    </div>
-</div>
+        </div> -->
