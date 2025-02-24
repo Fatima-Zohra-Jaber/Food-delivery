@@ -1,6 +1,6 @@
 <?php
+    session_start();
     
-
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
     
@@ -19,6 +19,13 @@
     }catch(PDOException $e){
         die ("Connexion échouée: " . $e->getMessage());
     }
- 
+
+    function calculTotal(){
+        $total = 0;
+        foreach($_SESSION['panier'] as $plat){
+            $total += $plat['prix'] * $plat['quantite'];
+        }
+        return $total;
+    }
    
 ?>

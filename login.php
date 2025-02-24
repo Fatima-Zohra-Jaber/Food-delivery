@@ -1,5 +1,4 @@
 <?php
-    session_start();
     require 'config.php';
 
     if(isset($_POST['connect'])){
@@ -14,7 +13,7 @@
             $result = $stmtConn->fetch(PDO::FETCH_ASSOC); //renvoie false si aucune donnée n'est trouvée
             if($result){
                 $_SESSION['client'] = $result;
-                header("Location: index.php");
+                header("Location:index.php");
                 exit;
             }else{
                 echo "Nom d’utilisateur ou N° télephone non valide!";
