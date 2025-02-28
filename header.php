@@ -32,7 +32,7 @@
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
                         </path>
                     </svg>
-                        <span class="custom-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">4</span>
+                        <span class="custom-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">4</span>
                 </div>
                 <div role="button" class="me-4 text-muted position-relative  list-inline-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -40,16 +40,13 @@
                         <line x1="3" y1="6" x2="21" y2="6"></line>
                         <path d="M16 10a4 4 0 0 1-8 0"></path>
                     </svg>
-                    <span class="custom-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">1</span>
+                    <span class="custom-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
                 </div>
                      
                 <div class="flex-shrink-0 dropdown">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <!-- <svg class="bi d-block mx-auto mb-1" width="32" height="32" >
-                            <use xlink:href="#people-circle"></use>
-                        </svg> -->
-                        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle">
+                        data-bs-toggle="dropdown"  id="dropdownMenuButton">
+                        <img src="images/profil.svg" alt="Profil">
                         <?=$_SESSION['client']['nomCl']?>
                     </a>
                     <ul class="dropdown-menu text-small shadow">
@@ -57,7 +54,7 @@
                         <li><a href="#" class="dropdown-item">Paramètre</a></li>
 
                         <li><hr class="dropdown-divider"></li>
-                        <li><a href="logout.php" class="dropdown-item">Deconnecter</a></li>
+                        <li><a href="logout.php" class="dropdown-item">Déconnexion</a></li>
                     </ul>
                 </div>
             </div>

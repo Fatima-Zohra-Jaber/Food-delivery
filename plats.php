@@ -3,7 +3,7 @@
   
      
     function getPlats($plat) {
-        echo "<div class='col-md-6 col-lg-4'>";
+        echo "<div class='col-md-6 col-lg-4' id={$plat['idPlat']}>";
             echo '<div class="card plat h-100">';
                 echo "<img src='images/{$plat['image']}' class='card-img-top' alt=''>";
                 echo "<div class='card-body'>";
@@ -103,15 +103,12 @@
         ?>
         </section>
             <!-- Cart Section -->
-        <section class="panier">
            <?php  include 'panier.php'; ?>
-        </section>
     </main>
     
-   <footer></footer>
-   <script src="js/bootstrap.bundle.min.js"></script>
-   
-    <!-- <script src="script.js"></script> -->
+  
+ <?php require 'footer.php'; ?>
+
     
 </body>
 </html>

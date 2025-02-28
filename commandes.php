@@ -19,56 +19,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
-<body>
-    <?php
-        include 'header.php';
-    ?>
-    <h2>Historique de vos commandes</h2>
-    <table class="table align-middle mb-0">
-        <head>
-            <tr>
-                <th>N° Commande</th>
-                <th>Date de Commande</th>
-                <th>Nom de plat</th>
-                <th>Catégorie</th>
-                <th>Type de cuissine</th>
-                <th>Prix</th>
-                <th>Quantité</th>
-                <th>Statut</th>
-                <!-- <th>Action</th> -->
 
-            </tr>
-            
-        </head>
-        <body>
-            <?php
-            $status_classes = [
-                'en attente' => 'bg-secondary-subtle text-secondary',
-                'en cours' => 'bg-secondary-subtle text-secondary',
-                'expédiée' => 'bg-secondary-subtle text-secondary',
-                'livrée' => 'bg-success-subtle text-success',
-                'annulée' => 'badge bg-danger-subtle text-danger'
-            ];
-            
-                foreach($commandes as $cmd){
-                    echo "<tr>";
-                        echo "<td>{$cmd['idCmd']}</td>";
-                        echo "<td>{$cmd['dateCmd']}</td>";
-                        echo "<td>{$cmd['nomPlat']}</td>";
-                        echo "<td>{$cmd['categoriePlat']}</td>";
-                        echo "<td>{$cmd['TypeCuisine']}</td>";
-                        echo "<td>{$cmd['prix']}</td>";
-                        echo "<td>{$cmd['qte']}</td>";
-                        $statut = $cmd['Statut'];
-                        $classe_css = $status_classes[$statut];
-                        echo "<td><span class='badge $classe_css'>{$statut}</span></td>";                       
-                       // echo "<td><a href='commandes.php?idCmd={$cmd['idCmd']}'>Annuler</a></td>";
-                    echo "</tr>";
-                }
+    <?php include 'header.php'; ?>
+    <main>
+        <h2>Historique de vos commandes</h2>
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>N° Commande</th>
+                    <th>Date de Commande</th>
+                    <th>Nom de plat</th>
+                    <th>Catégorie</th>
+                    <th>Type de cuissine</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Statut</th>
+                    <!-- <th>Action</th> -->
+                </tr>          
+            </thead>
+            <tbody>
+                <?php
+                $status_classes = [
+                    'en attente' => 'bg-secondary-subtle text-secondary',
+                    'en cours' => 'bg-secondary-subtle text-secondary',
+                    'expédiée' => 'bg-secondary-subtle text-secondary',
+                    'livrée' => 'bg-success-subtle text-success',
+                    'annulée' => 'badge bg-danger-subtle text-danger'
+                ];
+                
+                    foreach($commandes as $cmd){
+                        echo "<tr>";
+                            echo "<td>{$cmd['idCmd']}</td>";
+                            echo "<td>{$cmd['dateCmd']}</td>";
+                            echo "<td>{$cmd['nomPlat']}</td>";
+                            echo "<td>{$cmd['categoriePlat']}</td>";
+                            echo "<td>{$cmd['TypeCuisine']}</td>";
+                            echo "<td>{$cmd['prix']}</td>";
+                            echo "<td>{$cmd['qte']}</td>";
+                            $statut = $cmd['Statut'];
+                            $classe_css = $status_classes[$statut];
+                            echo "<td><span class='badge $classe_css'>{$statut}</span></td>";                       
+                        // echo "<td><a href='commandes.php?idCmd={$cmd['idCmd']}'>Annuler</a></td>";
+                        echo "</tr>";
+                    }
 
-            ?>
-        </body>
-    </table>
+                ?>
+            </tbody>
+        </table>
+
+        <!-- Cart Section -->
+        <?php  include 'panier.php'; ?>
+    </main>
+    <?php require 'footer.php'; ?>
 </body>
 </html>
