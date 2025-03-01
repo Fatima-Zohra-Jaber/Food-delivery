@@ -3,6 +3,16 @@ require '../config.php';
 if (empty($_SESSION['admin'])) {
     header('location:index.php');
 } else {
+   
+    $sql = "SELECT cmd.idCmd, cmd.dateCmd, cmd.Statut, p.nomPlat, p.categoriePlat,
+    p.TypeCuisine, p.prix,cmd_p.qte 
+    from commande cmd JOIN commande_plat cmd_p on cmd.idCmd = cmd_p.idCmd 
+    JOIN plat p on p.idPlat = cmd_p.idPlat order by cmd_p.idCmd";
+    $stmtCmds = $conn->prepare($sql);
+    // $stmtCmds->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+    $stmtCmds->execute();
+    $commandes = $stmtCmds->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!doctype html>
 <html lang="fr" data-bs-theme="auto">
@@ -201,16 +211,17 @@ if (empty($_SESSION['admin'])) {
     <ul class="nav nav-pills flex-column mb-auto">
      
       <li class="nav-item">
-        <a href="dashboard.php" class="nav-link active link-body-emphasis" aria-current="page">
+        <a href="dashboard.php" class="nav-link link-body-emphasis" aria-current="page">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Dashboard
         </a>
       </li>
       <li class="nav-item">
-        <a href="commandes.php" class="nav-link link-body-emphasis">
+        <a href="#" class="nav-link link-body-emphasis active">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-          Commandes
-        </a>  
+          <span class="pcoded-mtext">Commandes</span>
+        </a>
+       
       </li>
       <li class="nav-item">
         <a href="#submenuPlat" data-bs-toggle="collapse" class="nav-link link-body-emphasis">
@@ -248,7 +259,7 @@ if (empty($_SESSION['admin'])) {
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand">Dashboard</a>
+            <a class="navbar-brand">Listes des commandes</a>
             <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -258,26 +269,50 @@ if (empty($_SESSION['admin'])) {
     <table class="table mx-auto mt-5 table-striped table-bordered">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">N° Commande</th>
+                <th scope="col">Date de Commande</th>
+                <th scope="col">Nom de plat</th>
+                <th scope="col">Catégorie</th>
+                <th scope="col">Type de cuissine</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Statut</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>
-                    <a href=""><i class="bi bi-eye"></i></a>
-                    <a href=""><i class="bi bi-pencil"></i></a>
-                    <button><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>
-        </tbody>
+      
+                <?php
+                $status_classes = [
+                    'en attente' => 'bg-secondary-subtle text-secondary',
+                    'en cours' => 'bg-secondary-subtle text-secondary',
+                    'expédiée' => 'bg-secondary-subtle text-secondary',
+                    'livrée' => 'bg-success-subtle text-success',
+                    'annulée' => 'badge bg-danger-subtle text-danger'
+                ];
+                
+                    foreach($commandes as $cmd){
+                        echo "<tr>";
+                            echo "<td>{$cmd['idCmd']}</td>";
+                            echo "<td>{$cmd['dateCmd']}</td>";
+                            echo "<td>{$cmd['nomPlat']}</td>";
+                            echo "<td>{$cmd['categoriePlat']}</td>";
+                            echo "<td>{$cmd['TypeCuisine']}</td>";
+                            echo "<td>{$cmd['prix']}</td>";
+                            echo "<td>{$cmd['qte']}</td>";
+                            $statut = $cmd['Statut'];
+                            $classe_css = $status_classes[$statut];
+                            echo "<td><span class='badge $classe_css'>{$statut}</span></td>";     
+                            echo '<td>
+                                    <a href=""><i class="bi bi-eye"></i></a>
+                                    <a href=""><i class="bi bi-pencil"></i></a>
+                                 </td>';                  
+                        // echo "<td><a href='commandes.php?idCmd={$cmd['idCmd']}'>Annuler</a></td>";
+                        echo "</tr>";
+                    }
+
+                ?>
+            </tbody>
+       
     </table>
   </section>
 </main>

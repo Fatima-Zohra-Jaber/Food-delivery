@@ -209,8 +209,9 @@ if (empty($_SESSION['admin'])) {
       <li class="nav-item">
         <a href="commandes.php" class="nav-link link-body-emphasis">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-          Commandes
-        </a>  
+          <span class="pcoded-mtext">Commandes</span>
+        </a>
+       
       </li>
       <li class="nav-item">
         <a href="#submenuPlat" data-bs-toggle="collapse" class="nav-link link-body-emphasis">
@@ -248,37 +249,55 @@ if (empty($_SESSION['admin'])) {
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand">Dashboard</a>
+            <a class="navbar-brand">Ajouter un plat</a>
             <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
     </nav>
-    <table class="table mx-auto mt-5 table-striped table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>
-                    <a href=""><i class="bi bi-eye"></i></a>
-                    <a href=""><i class="bi bi-pencil"></i></a>
-                    <button><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <form class="mx-0 row g-3 mt-3">
+  <div class="col-md-6">
+    <label for="nomPlat" class="form-label">Nom de plat</label>
+    <input type="text" class="form-control" id="nomPlat">
+  </div>
+  
+  <div class="col-md-6">
+    <label for="photoPlat" class="form-label">Photo de plat</label>
+    <input type="file" class="form-control" id="photoPlat">
+  </div>
+ 
+  <div class="col-md-6">
+    <label for="categoriePlat" class="form-label">Catégorie</label>
+    <select id="categoriePlat" class="form-select">
+      <option selected hidden>Choisissez la catégorie</option>
+      <option>Plat principal</option>
+      <option>Dessert</option>
+      <option>Entrée</option>
+    </select>
+  </div>
+
+  <div class="col-md-6">
+    <label for="typeCuisine" class="form-label">Type de cuisine</label>
+    <select id="typeCuisine" class="form-select">
+      <option selected hidden>Choisissez le type de cuisine</option>
+      <option>Marocaine</option>
+      <option>Italienne</option>
+      <option>Chinoise</option>
+      <option>Espagnole</option>
+      <option>Francaise</option>
+    </select>
+  </div>
+  <div class="col-md-6">
+    <label for="prixPlat" class="form-label">Prix</label>
+    <input type="number" class="form-control" id="prixPlat">
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <button type="submit" class="btn btn-primary">Annuler</button>
+
+  </div>
+</form>
   </section>
 </main>
 <script src="../js/bootstrap.bundle.min.js"></script>

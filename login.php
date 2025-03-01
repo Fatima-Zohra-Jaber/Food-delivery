@@ -26,23 +26,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
     <title>Connexion</title>
     <style>
-        h2{text-align:center;}
-        form {display: flex; flex-direction: column; width: 300px; margin: auto;}
-        input {margin-top: 10px; padding: 8px;}
-        div { width: 300px; margin: auto; }
+        .test{
+            margin: auto !important;
+        }
     </style>
 </head>
 <body>
-    <h2>Connectez-vous à votre compte</h2>
-    <form action="" method="POST">
-        <input type="text" placeholder="Nom d'utilisateur" name="nom" />
-        <input type="tel" placeholder="N° téléphone" name="tel" />
-        <input type="submit"  name="connect" value="Se connecter" />
-    </form>
-    <div>
-        Vous n’avez pas de compte?<a href="inscription.php"> S'inscrire</a>
+        
+    <div class="test col-md-10 mx-auto my-auto col-lg-4 p-4 p-md-5 border rounded-3 bg-body-tertiary">
+        <h3 class="text-center">Connectez-vous à votre compte</h3>
+        <form action="" method="POST" class="mt-5">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="nom" id="nom" placeholder="Nom d'utilisateur">
+                <label for="nom">Nom d'utilisateur</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="tel" class="form-control" name="tel" id="tel" placeholder="N° téléphone">
+                <label for="tel">N° téléphone</label>
+            </div>
+         
+            <button class="w-50 btn btn-lg btn-primary" type="submit" name="connect">Se connecter</button>
+            <hr class="my-4">
+            <div>
+                Vous n’avez pas de compte?<a href="inscription.php" class="text-decoration-none"> S'inscrire</a>
+            </div>
+        </form>
     </div>
 </body>
 </html>

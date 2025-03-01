@@ -21,9 +21,9 @@
     <title>Document</title>
 
     <?php include 'header.php'; ?>
-    <main>
+    <main class="container">
         <h2>Historique de vos commandes</h2>
-        <table class="table align-middle mb-0">
+        <table class="table mx-auto mt-5 table-striped table-bordered">
             <thead>
                 <tr>
                     <th>N° Commande</th>

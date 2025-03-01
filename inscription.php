@@ -66,26 +66,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <title>Inscription</title>
     <style>
-        h2{text-align:center;}
+        /* h2{text-align:center;}
         form {display: flex; flex-direction: column; width: 300px; margin: auto;}
         input {margin-top: 10px; padding: 8px;}
         div { width: 300px; margin: auto; }
-        .erreur { color: red; font-size: 14px; }
+        .erreur { color: red; font-size: 14px; } */
     </style>
 </head>
 <body>
-    <h2>Inscrivez-vous pour commander les plats</h2>
-    <form action="" method="POST">
-        <input type="text" placeholder="Nom" name="nom" />
-        <span class="erreur"><?= $erreurs['nom'] ?? '' ?></span>
-        <input type="text" placeholder="Prénom" name="prenom" />
-        <span class="erreur"><?= $erreurs['prenom'] ?? '' ?></span>
-        <input type="tel" placeholder="N° téléphone" name="tel" />
-        <span class="erreur"><?= $erreurs['tel'] ?? '' ?></span>
-        <input type="submit"  name="inscrire" value="S'inscrire" />
-    </form>
-    <div>Vous avez un compte ?<a href="login.php"> Connectez-vous</a></div>
+
+    <div class="test col-md-10 mx-auto my-auto col-lg-4 p-4 p-md-5 border rounded-3 bg-body-tertiary">
+        <h3 class="text-center">Inscrivez-vous pour commander les plats</h3>
+        <form action="" method="POST" class="mt-5">
+
+            <div class="form-floating mb-3">
+                <input type="text" placeholder="Nom" name="nom" id="nom" class="form-control"/>
+                <label for="nom">Nom</label>
+                <span class="erreur"><?= $erreurs['nom'] ?? '' ?></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" placeholder="Prénom" name="prenom" id="prenom" class="form-control"/>
+                <label for="prenom">Prénom</label>
+                <span class="erreur"><?= $erreurs['prenom'] ?? '' ?></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="tel" placeholder="N° téléphone" name="tel" id="tel" class="form-control"/>
+                <label for="tel">N° téléphone</label>
+                <span class="erreur"><?= $erreurs['tel'] ?? '' ?></span>
+            </div>
+
+            <input type="submit"  name="inscrire" value="S'inscrire" class="w-50 btn btn-lg btn-primary"/>
+
+        </form>
+        <hr class="my-4">
+        <div>Vous avez un compte ?<a href="login.php" class="text-decoration-none"> Connectez-vous</a></div>
+       
+    </div>
 </body>
 </html>

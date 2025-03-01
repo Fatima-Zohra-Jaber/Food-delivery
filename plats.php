@@ -5,7 +5,7 @@
     function getPlats($plat) {
         echo "<div class='col-md-6 col-lg-4' id={$plat['idPlat']}>";
             echo '<div class="card plat h-100">';
-                echo "<img src='images/{$plat['image']}' class='card-img-top' alt=''>";
+                echo "<img src='images/{$plat['image']}' class='card-img-top' alt='' height='50%'>";
                 echo "<div class='card-body'>";
                     echo "<h5 class='card-title'>".htmlspecialchars($plat['nomPlat'])."</h5>";
                     echo "<p class='card-text categorie' >".htmlspecialchars($plat['categoriePlat'])."</p>";
@@ -65,7 +65,7 @@
             <!-- <input type="text" id="recherche" placeholder="Rechercher" name="inputRecherch"> -->
             <button type="submit" name="submitRecherch" >Rechercher</button>
         </form>
-    <main>
+    <main class="container">
        <!-- Plats Section -->
        <section id="listPlat" class="container text-center py-5">
         <?php
@@ -97,7 +97,7 @@
                         echo "</div>";
                     }
                 }else {
-                    echo "<p>Aucun plat disponible pour le moment.</p>";
+                    echo "<p class='alert alert-warning' role='alert'>Aucun plat disponible pour le moment.</p>";
                 }
             }
         ?>

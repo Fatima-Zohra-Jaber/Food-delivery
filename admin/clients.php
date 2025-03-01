@@ -3,6 +3,14 @@ require '../config.php';
 if (empty($_SESSION['admin'])) {
     header('location:index.php');
 } else {
+   
+    $sql = "SELECT * from client";
+    $stmtClt = $conn->prepare($sql);
+    // $stmtCmds->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+    $stmtClt->execute();
+    $clients = $stmtClt->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 <!doctype html>
 <html lang="fr" data-bs-theme="auto">
@@ -201,16 +209,17 @@ if (empty($_SESSION['admin'])) {
     <ul class="nav nav-pills flex-column mb-auto">
      
       <li class="nav-item">
-        <a href="dashboard.php" class="nav-link active link-body-emphasis" aria-current="page">
+        <a href="dashboard.php" class="nav-link link-body-emphasis" aria-current="page">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Dashboard
         </a>
       </li>
       <li class="nav-item">
-        <a href="commandes.php" class="nav-link link-body-emphasis">
+        <a href="commandes.php" class="nav-link link-body-emphasis ">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-          Commandes
-        </a>  
+          <span class="pcoded-mtext">Commandes</span>
+        </a>
+       
       </li>
       <li class="nav-item">
         <a href="#submenuPlat" data-bs-toggle="collapse" class="nav-link link-body-emphasis">
@@ -218,7 +227,7 @@ if (empty($_SESSION['admin'])) {
           Plats
         </a>
         <ul class="collapse list-unstyled" id="submenuPlat">
-            <li><a href="plats.php" class="nav-link link-body-emphasis ms-4">Tous les plats</a></li>
+            <li><a href="plats.php" class="nav-link link-body-emphasis ms-4 ">Tous les plats</a></li>
             <li><a href="ajouter_plat.php" class="nav-link link-body-emphasis ms-4">Ajouter un plat</a></li>
         </ul>
       </li>
@@ -248,7 +257,7 @@ if (empty($_SESSION['admin'])) {
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand">Dashboard</a>
+            <a class="navbar-brand">Listes des clients</a>
             <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -258,26 +267,35 @@ if (empty($_SESSION['admin'])) {
     <table class="table mx-auto mt-5 table-striped table-bordered">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Id Client</th>
+                <th scope="col">Non</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">N° téléphone</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>
-                    <a href=""><i class="bi bi-eye"></i></a>
-                    <a href=""><i class="bi bi-pencil"></i></a>
-                    <button><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>
-        </tbody>
+     
+      
+                <?php
+                
+                    foreach($clients as $client){
+                        echo "<tr>";
+                            echo "<td>{$client['idClient']}</td>";
+                            echo "<td>{$client['nomCl']}</td>";
+                            echo "<td>{$client['prenomCl']}</td>";
+                            echo "<td>{$client['telCl']}</td>";    
+                            echo '<td>
+                                    <a href=""><i class="bi bi-eye"></i></a>
+                                    <a href=""><i class="bi bi-pencil"></i></a>
+                                    <button><i class="bi bi-trash"></i></button>
+                                 </td>';                  
+                        // echo "<td><a href='commandes.php?idCmd={$cmd['idCmd']}'>Annuler</a></td>";
+                        echo "</tr>";
+                    }
+
+                ?>
+            </tbody>
+       
     </table>
   </section>
 </main>
