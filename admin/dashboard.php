@@ -3,6 +3,7 @@ require '../config.php';
 if (empty($_SESSION['admin'])) {
     header('location:index.php');
 } else {
+   
 ?>
 <!doctype html>
 <html lang="fr" data-bs-theme="auto">
@@ -21,93 +22,8 @@ if (empty($_SESSION['admin'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
 <!-- <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-<link rel="stylesheet" href="../css/bootstrap.min.css">
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .b-example-divider {
-        width: 100%;
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
-
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
-
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .btn-bd-primary {
-        --bd-violet-bg: #712cf9;
-        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-        --bs-btn-font-weight: 600;
-        --bs-btn-color: var(--bs-white);
-        --bs-btn-bg: var(--bd-violet-bg);
-        --bs-btn-border-color: var(--bd-violet-bg);
-        --bs-btn-hover-color: var(--bs-white);
-        --bs-btn-hover-bg: #6528e0;
-        --bs-btn-hover-border-color: #6528e0;
-        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-        --bs-btn-active-color: var(--bs-btn-hover-color);
-        --bs-btn-active-bg: #5a23c8;
-        --bs-btn-active-border-color: #5a23c8;
-      }
-
-      .bd-mode-toggle {
-        z-index: 1500;
-      }
-
-      .bd-mode-toggle .dropdown-menu .active .bi {
-        display: block !important;
-      }
-      .table{
-        width:95%;
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/admin.css">
     <link href="../css/sidebars.css" rel="stylesheet">
   </head>
   <body>
@@ -188,9 +104,6 @@ if (empty($_SESSION['admin'])) {
 </svg>
 
 <main class="d-flex flex-nowrap">
-  <h1 class="visually-hidden">Sidebars examples</h1>
-
-
 
   <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 280px;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
@@ -248,38 +161,163 @@ if (empty($_SESSION['admin'])) {
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand">Dashboard</a>
-            <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <a class="navbar-brand">Dashboard</a> 
+            <form class="d-flex" role="search" method="post">
+                <input class="form-control me-2" type="date" name="date" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit" name="search">rechercher</button>
             </form>
         </div>
     </nav>
-    <table class="table mx-auto mt-5 table-striped table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>
-                    <a href=""><i class="bi bi-eye"></i></a>
-                    <a href=""><i class="bi bi-pencil"></i></a>
-                    <button><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>
-        </tbody>
+    
+    
+
+    <div class="row my-4 mx-auto">
+      <div class="col-12 col-md-4 col-xxl-3 mb-4 mb-xxl-0 ">
+        <div class="card bg-body-tertiary border-transparent h-100">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col">
+                <!-- Heading -->
+                <h4 class="fs-6 fw-normal text-body-secondary mb-1">Nombre de commandes</h4>
+
+                <!-- Text -->
+                <div class="fs-1 fw-semibold">
+                <?php $sql = "SELECT COUNT(idCmd) as nb FROM commande";
+                      $stmtCmds = $conn->prepare($sql);
+                      $stmtCmds->execute();
+                      $ndCmds = $stmtCmds->fetch(PDO::FETCH_ASSOC);
+                      echo $ndCmds['nb'];?>
+                </div>
+              </div>
+              <div class="col-auto">
+                <!-- Avatar -->
+                <div class="avatar avatar-lg  text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                </svg>  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 col-xxl-3 mb-4 mb-xxl-0 ">
+        <div class="card bg-body-tertiary border-transparent h-100">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col">
+                <!-- Heading -->
+                <h4 class="fs-6 fw-normal text-body-secondary mb-1">Nombre de clients</h4>
+
+                <!-- Text -->
+                <div class="fs-1 fw-semibold">
+                <?php $sql = "SELECT COUNT(idClient) as nb FROM client";
+                      $stmtCmds = $conn->prepare($sql);
+                      $stmtCmds->execute();
+                      $ndCmds = $stmtCmds->fetch(PDO::FETCH_ASSOC);
+                      echo $ndCmds['nb'];?>
+                </div>
+              </div>
+              <div class="col-auto">
+                <!-- Avatar -->
+                <div class="avatar avatar-lg  text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                  <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                </svg>        
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 col-xxl-3 mb-4 mb-xxl-0 ">
+        <div class="card bg-body-tertiary border-transparent h-100">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col">
+                <!-- Heading -->
+                <h4 class="fs-6 fw-normal text-body-secondary mb-1">Nombre de commandes annulées</h4>
+
+                <!-- Text -->
+                <div class="fs-1 fw-semibold">
+                <?php $sql = "SELECT COUNT(idCmd) as nb FROM commande WHERE Statut = 'annulée'";
+                      $stmtCmds = $conn->prepare($sql);
+                      $stmtCmds->execute();
+                      $ndCmds = $stmtCmds->fetch(PDO::FETCH_ASSOC);
+                      echo $ndCmds['nb'];?>
+                </div>
+              </div>
+              <div class="col-auto">
+                <!-- Avatar -->
+                <div class="avatar avatar-lg  text-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart-x-fill" viewBox="0 0 16 16">
+                    <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7.354 5.646 8.5 6.793l1.146-1.147a.5.5 0 0 1 .708.708L9.207 7.5l1.147 1.146a.5.5 0 0 1-.708.708L8.5 8.207 7.354 9.354a.5.5 0 1 1-.708-.708L7.793 7.5 6.646 6.354a.5.5 0 1 1 .708-.708"/>
+                  </svg>                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>    
+    </div>
+
+   
+    
+     
+                <?php
+                $date = date("Y-m-d");
+                if(isset($_POST['search']) && !empty($_POST['date'])) {
+                    $date = $_POST['date']; 
+                } 
+                echo "<p class='lead ms-4'>Liste des plats commandés au: {$date}</p>";
+                $sql = "SELECT p.idPlat, p.image, p.nomPlat, p.categoriePlat,
+                p.TypeCuisine, p.prix
+                FROM commande cmd 
+                JOIN commande_plat cmd_p ON cmd.idCmd = cmd_p.idCmd 
+                JOIN plat p ON p.idPlat = cmd_p.idPlat 
+                WHERE DATE(cmd.dateCmd) = :dateCmd ";
+                $stmtPlat = $conn->prepare($sql);
+                $stmtPlat->bindParam(':dateCmd', $date);
+                $stmtPlat->execute();
+                $plats = $stmtPlat->fetchAll(PDO::FETCH_ASSOC);
+                if(!empty($plats)){
+
+              ?>
+                <table class="table mx-auto mt-5 table-striped table-bordered">
+                  <thead>
+                      <tr>
+                          <th scope="col">Id Plat</th>
+                          <th scope="col">Photo</th>
+                          <th scope="col">Nom de plat</th>
+                          <th scope="col">Catégorie</th>
+                          <th scope="col">Type de cuissine</th>
+                          <th scope="col">Prix</th>
+                      </tr>
+                  </thead>
+                  <?php
+                    foreach($plats as $plat){
+                        echo "<tr>";
+                            echo "<td>{$plat['idPlat']}</td>";
+                            echo "<td><img src='../images/{$plat['image']}' height='40px' width='40px'></td>";
+                            echo "<td>{$plat['nomPlat']}</td>";
+                            echo "<td>{$plat['categoriePlat']}</td>";
+                            echo "<td>{$plat['TypeCuisine']}</td>";
+                            echo "<td>{$plat['prix']} Dh</td>"; 
+                        echo "</tr>"
+                    }
+
+                ?>
+            </tbody>    
     </table>
+    <?php
+                }else{
+                  echo "<div class='alert alert-warning w-75 mx-auto mt-5' role='alert'>
+                          Aucune commande à ce date!
+                        </div>";
+                }
+    ?>
   </section>
+
 </main>
 <script src="../js/bootstrap.bundle.min.js"></script>
 

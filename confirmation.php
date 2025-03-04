@@ -52,26 +52,49 @@
     <?php
         include 'header.php';
     ?>
-    <section>
-        <?php
-            if (!empty($_SESSION['panier'])){
-                foreach($_SESSION['panier'] as $index => $plat){
-                    echo '<div class="cartPlat">';
-                        echo "<img src='images/{$plat['image']}' alt=''>";
-                        echo "<h5>".htmlspecialchars($plat['nomPlat'])."</h5>";
-                        echo "<p>".htmlspecialchars($plat['prix'])." DH</p>";
-                        echo "<span id='quantite' {$plat['quantite']} </span>";
-                    echo '</div>'; 
-                }
-            }
-        ?>
 
-        <div class="total">
-            <span>Total:</span> <span class="total"><?= calculTotal() ?> DH</span>
-        </div> 
-        <div>
-            <a href="confirmation.php?idClient=<?= $idClient ?>">Commander</a>
-        </div>
+    <section class="container h-100 py-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" class="h5">Image</th>
+                    <th scope="col">Nom de plat</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+             
+        <?php
+            if (!empty($_SESSION['panier'])):
+                foreach($_SESSION['panier'] as $index => $plat): ?>
+                <tr>
+                    <td>
+                        <img src="images/<?=$plat['image']?>" class="img-fluid rounded-3" style="width: 110px;">
+                    </td>
+                    <td class="align-middle">
+                    <p class="mb-0" style="font-weight: 500;"> <?=htmlspecialchars($plat['nomPlat'])?> </p>
+                    </td>
+                    <td class="align-middle">
+                    <p class="mb-0" style="font-weight: 500;"> <?=htmlspecialchars($plat['quantite'])?></p>
+                    </td>
+                    <td class="align-middle">
+                    <p class="mb-0" style="font-weight: 500;"> <?=htmlspecialchars($plat['prix'])?>Dh</p>
+                    </td>
+                </tr> 
+                <?php endforeach; ?>
+            <?php endif; ?>
+          </tbody>
+            <tfoot>
+                <th colspan="3">Total</th> 
+                <th><?= calculTotal() ?> DH</th>        
+            </tfoot>
+            
+        </table>    
+        <div class="d-flex justify-content-end col-12">
+            <a href="confirmation.php?idClient=<?= $idClient ?>" class="btn btn-danger">Commander</a>
+        </div>            
+     
     </section>
 </body>
 </html>
