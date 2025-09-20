@@ -60,9 +60,9 @@
 
     <div> 
         <?php if (empty($_SESSION['panier'])){?>
-            <div class="p-5">
-                <img src="images/panierVide.png" alt="Empty Cart" class="w-50 mx-auto my-4">
-                <p class="mx-autp">Votre panier est vide.</p>
+            <div class="p-5 d-flex flex-column align-items-center">
+                <img src="images/panierVide.png" alt="Empty Cart" class="w-50 my-4">
+                <p>Votre panier est vide.</p>
             </div>      
         <?php }else{ ?>
             <ul class="list-group mb-3 px-3 list-group-flush" >

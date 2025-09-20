@@ -48,12 +48,12 @@
     <link rel="stylesheet" href="style.css">
 
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <?php
         include 'header.php';
     ?>
 
-    <section class="container h-100 py-2">
+    <section class="container flex-grow-1 py-2">
         <table class="table">
             <thead>
                 <tr>
@@ -96,5 +96,8 @@
         </div>            
      
     </section>
+    <?php
+        include 'footer.php';
+    ?>
 </body>
 </html>

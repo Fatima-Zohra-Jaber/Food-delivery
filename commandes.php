@@ -18,10 +18,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Commandes</title>
 
-    <?php include 'header.php'; ?>
-    <main class="container">
+</head>
+<body class="container d-flex flex-column min-vh-100">
+    <?php require 'header.php'; ?>
+    <main class="flex-grow-1 mx-3">
         <h2>Historique de vos commandes</h2>
         <table class="table mx-auto mt-5 table-striped table-bordered">
             <thead>

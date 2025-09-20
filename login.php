@@ -29,15 +29,10 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <title>Connexion</title>
-    <style>
-        .test{
-            margin: auto !important;
-        }
-    </style>
 </head>
-<body>
+<body class="d-flex justify-content-center align-items-center min-vh-100">
         
-    <div class="test col-md-10 mx-auto my-auto col-lg-4 p-4 p-md-5 border rounded-3 bg-body-tertiary">
+    <div class="test col-md-10 col-lg-4 p-4 p-md-5 border rounded-3 bg-body-tertiary">
         <h3 class="text-center">Connectez-vous à votre compte</h3>
         <form action="" method="POST" class="mt-5">
             <div class="form-floating mb-3">

@@ -76,9 +76,9 @@
         .erreur { color: red; font-size: 14px; } */
     </style>
 </head>
-<body>
+<body class="d-flex justify-content-center align-items-center min-vh-100">
 
-    <div class="test col-md-10 mx-auto my-auto col-lg-4 p-4 p-md-5 border rounded-3 bg-body-tertiary">
+    <div class="test col-md-10 col-lg-4 p-4 p-md-5 border rounded-3 bg-body-tertiary">
         <h3 class="text-center">Inscrivez-vous pour commander les plats</h3>
         <form action="" method="POST" class="mt-5">
 
