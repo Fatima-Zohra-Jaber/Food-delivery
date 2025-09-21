@@ -42,7 +42,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>Sidebars · Bootstrap v5.3</title>
+    <title>Commandes</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
@@ -187,7 +187,7 @@
     </div>
   </div>
 
-  <div class="b-example-divider b-example-vr"></div>
+  <div class="b-example-divider b-example-vr" style="width: 2px;"></div>
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
@@ -198,7 +198,7 @@
             </form>
         </div>
     </nav>
-    <table class="table mx-auto mt-5 table-striped table-bordered">
+    <table class="table mx-auto mt-5 table-striped table-bordered small">
         <thead>
             <tr>
                 <th scope="col">N° Commande</th>
@@ -215,8 +215,8 @@
       
                 <?php
                 $status_classes = [
-                    'en attente' => 'bg-secondary-subtle text-secondary',
-                    'en cours' => 'bg-secondary-subtle text-secondary',
+                    'en attente' => 'bg-warning-subtle text-warning',
+                    'en cours' => 'bg-primary-subtle text-primary',
                     'expédiée' => 'bg-secondary-subtle text-secondary',
                     'livrée' => 'bg-success-subtle text-success',
                     'annulée' => 'badge bg-danger-subtle text-danger'

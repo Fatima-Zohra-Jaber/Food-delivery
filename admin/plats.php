@@ -3,9 +3,22 @@ require '../config.php';
 if (empty($_SESSION['admin'])) {
     header('location:index.php');
 } else {
-   
-    
+    // Utiliser $conn au lieu de $pdo
+    $perPage = 7;
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $offset = ($page - 1) * $perPage;
 
+    // Get total plats count
+    $stmtCount = $conn->query('SELECT COUNT(*) FROM plat');
+    $totalPlats = $stmtCount->fetchColumn();
+    $totalPages = ceil($totalPlats / $perPage);
+
+    // Fetch plats for current page
+    $stmt = $conn->prepare('SELECT * FROM plat LIMIT :offset, :perPage');
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->bindValue(':perPage', $perPage, PDO::PARAM_INT);
+    $stmt->execute();
+    $plats = $stmt->fetchAll();
 ?>
 <!doctype html>
 <html lang="fr" data-bs-theme="auto">
@@ -18,7 +31,7 @@ if (empty($_SESSION['admin'])) {
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>Sidebars · Bootstrap v5.3</title>
+    <title>Plats</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
@@ -134,7 +147,7 @@ if (empty($_SESSION['admin'])) {
        
       </li>
       <li class="nav-item">
-        <a href="#submenuPlat" data-bs-toggle="collapse" class="nav-link link-body-emphasis">
+        <a href="#submenuPlat" data-bs-toggle="collapse" class="nav-link link-body-emphasis active">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
           Plats
         </a>
@@ -165,18 +178,18 @@ if (empty($_SESSION['admin'])) {
     </div>
   </div>
 
-  <div class="b-example-divider b-example-vr"></div>
+  <div class="b-example-divider b-example-vr" style="width:2px;"></div>
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand">Listes des plats</a>
             <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-primary" type="submit">Search</button>
             </form>
         </div>
     </nav>
-    <table class="table mx-auto mt-5 table-striped table-bordered">
+    <table class="table mx-auto mt-3 table-striped table-bordered small">
         <thead>
             <tr>
                 <th scope="col">Id Plat</th>
@@ -200,11 +213,11 @@ if (empty($_SESSION['admin'])) {
                             echo "<td>{$plat['categoriePlat']}</td>";
                             echo "<td>{$plat['TypeCuisine']}</td>";
                             echo "<td>{$plat['prix']} Dh</td>";     
-                            echo '<td>
-                                    <a href=""><i class="bi bi-eye"></i></a>
-                                    <a href=""><i class="bi bi-pencil"></i></a>
-                                    <button><i class="bi bi-trash"></i></button>
-                                 </td>';                  
+                            echo '<td class="text-center">
+                                      <a href="#" class="btn btn-outline-primary btn-sm me-1" title="Voir"><i class="bi bi-eye"></i></a>
+                                      <a href="#" class="btn btn-outline-warning btn-sm me-1" title="Modifier"><i class="bi bi-pencil"></i></a>
+                                      <button class="btn btn-outline-danger btn-sm" title="Supprimer"><i class="bi bi-trash"></i></button>
+                                  </td>';                  
                         // echo "<td><a href='commandes.php?idCmd={$cmd['idCmd']}'>Annuler</a></td>";
                         echo "</tr>";
                     }
@@ -213,6 +226,30 @@ if (empty($_SESSION['admin'])) {
             </tbody>
        
     </table>
+    <!-- Pagination controls -->
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <?php if ($page > 1): ?>
+      <li class="page-item">
+        <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Précédent">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+    <?php endif; ?>
+    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+      <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+      </li>
+    <?php endfor; ?>
+    <?php if ($page < $totalPages): ?>
+      <li class="page-item">
+        <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Suivant">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    <?php endif; ?>
+  </ul>
+</nav>
   </section>
 </main>
 <script src="../js/bootstrap.bundle.min.js"></script>

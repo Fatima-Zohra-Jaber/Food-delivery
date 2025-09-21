@@ -16,7 +16,7 @@ if (empty($_SESSION['admin'])) {
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>Sidebars · Bootstrap v5.3</title>
+    <title>Dashboard</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
@@ -157,7 +157,7 @@ if (empty($_SESSION['admin'])) {
     </div>
   </div>
 
-  <div class="b-example-divider b-example-vr"></div>
+  <div class="b-example-divider b-example-vr" style="width:2px;"></div>
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
@@ -303,7 +303,7 @@ if (empty($_SESSION['admin'])) {
                             echo "<td>{$plat['categoriePlat']}</td>";
                             echo "<td>{$plat['TypeCuisine']}</td>";
                             echo "<td>{$plat['prix']} Dh</td>"; 
-                        echo "</tr>"
+                        echo "</tr>";
                     }
 
                 ?>

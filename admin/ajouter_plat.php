@@ -15,7 +15,7 @@ if (empty($_SESSION['admin'])) {
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>Sidebars · Bootstrap v5.3</title>
+    <title>Ajouter un plat</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
@@ -201,7 +201,7 @@ if (empty($_SESSION['admin'])) {
     <ul class="nav nav-pills flex-column mb-auto">
      
       <li class="nav-item">
-        <a href="dashboard.php" class="nav-link active link-body-emphasis" aria-current="page">
+        <a href="dashboard.php" class="nav-link link-body-emphasis" aria-current="page">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Dashboard
         </a>
@@ -214,7 +214,7 @@ if (empty($_SESSION['admin'])) {
        
       </li>
       <li class="nav-item">
-        <a href="#submenuPlat" data-bs-toggle="collapse" class="nav-link link-body-emphasis">
+        <a href="#submenuPlat" data-bs-toggle="collapse" class="nav-link active link-body-emphasis">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
           Plats
         </a>
@@ -245,18 +245,18 @@ if (empty($_SESSION['admin'])) {
     </div>
   </div>
 
-  <div class="b-example-divider b-example-vr"></div>
+  <div class="b-example-divider b-example-vr" style="width: 2px;"></div>
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand">Ajouter un plat</a>
             <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-primary" type="submit">Search</button>
             </form>
         </div>
     </nav>
-    <form class="mx-0 row g-3 mt-3">
+    <form class="mx-5 row g-3 mt-3">
   <div class="col-md-6">
     <label for="nomPlat" class="form-label">Nom de plat</label>
     <input type="text" class="form-control" id="nomPlat">

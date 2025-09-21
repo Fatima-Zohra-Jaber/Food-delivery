@@ -3,10 +3,20 @@ require '../config.php';
 if (empty($_SESSION['admin'])) {
     header('location:index.php');
 } else {
-   
-    $sql = "SELECT * from client";
-    $stmtClt = $conn->prepare($sql);
-    // $stmtCmds->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+    // Pagination setup
+    $perPage = 8;
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $offset = ($page - 1) * $perPage;
+
+    // Get total clients count
+    $stmtCount = $conn->query('SELECT COUNT(*) FROM client');
+    $totalClients = $stmtCount->fetchColumn();
+    $totalPages = ceil($totalClients / $perPage);
+
+    // Fetch clients for current page
+    $stmtClt = $conn->prepare('SELECT * FROM client LIMIT :offset, :perPage');
+    $stmtClt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmtClt->bindValue(':perPage', $perPage, PDO::PARAM_INT);
     $stmtClt->execute();
     $clients = $stmtClt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -23,7 +33,7 @@ if (empty($_SESSION['admin'])) {
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>Sidebars · Bootstrap v5.3</title>
+    <title>Clients</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
@@ -150,7 +160,7 @@ if (empty($_SESSION['admin'])) {
         </ul>
       </li>
       <li class="nav-item">
-        <a href="clients.php" class="nav-link link-body-emphasis">
+        <a href="clients.php" class="nav-link link-body-emphasis active">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
           Clients
         </a>
@@ -171,18 +181,18 @@ if (empty($_SESSION['admin'])) {
     </div>
   </div>
 
-  <div class="b-example-divider b-example-vr"></div>
+  <div class="b-example-divider b-example-vr" style="width: 2px;"></div>
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand">Listes des clients</a>
             <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-primary" type="submit">Search</button>
             </form>
         </div>
     </nav>
-    <table class="table mx-auto mt-5 table-striped table-bordered">
+    <table class="table mx-auto mt-3 table-striped table-bordered small">
         <thead>
             <tr>
                 <th scope="col">Id Client</th>
@@ -203,9 +213,9 @@ if (empty($_SESSION['admin'])) {
                             echo "<td>{$client['prenomCl']}</td>";
                             echo "<td>{$client['telCl']}</td>";    
                             echo '<td>
-                                    <a href=""><i class="bi bi-eye"></i></a>
-                                    <a href=""><i class="bi bi-pencil"></i></a>
-                                    <button><i class="bi bi-trash"></i></button>
+                                    <a href="#" class="btn btn-outline-primary btn-sm me-1" title="Voir"><i class="bi bi-eye"></i></a>
+                                    <a href="#" class="btn btn-outline-warning btn-sm me-1" title="Modifier"><i class="bi bi-pencil"></i></a>
+                                    <button class="btn btn-outline-danger btn-sm" title="Supprimer"><i class="bi bi-trash"></i></button>
                                  </td>';                  
                         // echo "<td><a href='commandes.php?idCmd={$cmd['idCmd']}'>Annuler</a></td>";
                         echo "</tr>";
@@ -213,8 +223,31 @@ if (empty($_SESSION['admin'])) {
 
                 ?>
             </tbody>
-       
-    </table>
+        </table>
+        <!-- Pagination controls -->
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            <?php if ($page > 1): ?>
+              <li class="page-item">
+                <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Précédent">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+            <?php endif; ?>
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+              <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+              </li>
+            <?php endfor; ?>
+            <?php if ($page < $totalPages): ?>
+              <li class="page-item">
+                <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Suivant">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            <?php endif; ?>
+          </ul>
+        </nav>
   </section>
 </main>
 <script src="../js/bootstrap.bundle.min.js"></script>

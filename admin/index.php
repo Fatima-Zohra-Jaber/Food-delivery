@@ -1,6 +1,14 @@
 <?php 
     session_start();
-    $_SESSION['admin'] = 'test';
+    if(isset($_POST['connect'])){
+        if($_POST['nom'] == 'admin' && $_POST['password'] == 'admin'){
+            $_SESSION['admin'] = 'admin';
+            header('Location: dashboard.php');
+            exit();
+        }else{
+            echo "<div class='alert alert-danger text-center'>Identifiants incorrects</div>";
+        }
+    }
 
 ?>
 <!DOCTYPE html>
