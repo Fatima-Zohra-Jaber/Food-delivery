@@ -1,16 +1,17 @@
 # Food-delivery
 
+![Accueil](images/screenshots/home.png)
+
 Food-delivery est une application web de commande de plats en ligne, moderne et responsive, développée en PHP avec Bootstrap.
 
 ## Fonctionnalités
 
+- Authentification et inscription client
 - Parcourir les plats par catégorie et type de cuisine
 - Recherche et filtrage des plats
 - Ajout au panier et gestion des quantités
 - Historique des commandes
-- Authentification et inscription client
-- Interface d'administration (ajout de plats, gestion des commandes)
-- Pagination des plats
+- Interface d'administration (dashboard ,gestion des commandes ,gestion des plats, gestion des clients )
 
 ## Prérequis
 
@@ -30,21 +31,34 @@ Food-delivery est une application web de commande de plats en ligne, moderne et 
 
 ## Captures d'écran
 
-### Page d'accueil
+### Partie administration
 
-![Accueil](images/screenshot/home.png)
+#### Tableau de bord
 
-### Liste des plats
+![Dashboard admin](images/screenshots/admin_dashboard.png)
 
-![Plats](images/screenshot/plats.png)
+#### Gestion des plats
 
-### Confermation de commande
+![Admin plats](images/screenshots/admin_plats.png)
 
-![Confermation](images/screenshot/confirmation.png)
+#### Gestion des commandes
 
-### l'historique des commandes
+![Admin commandes](images/screenshots/admin_commandes.png)
 
-![Commandes](images/screenshot/commandes.png)
+#### Gestion des clients
 
+![Admin clients](images/screenshots/admin_clients.png)
 
+### Partie client
 
+#### Liste des plats
+
+![Plats](images/screenshots/plats.png)
+
+#### Confirmation de commande
+
+![Confirmation](images/screenshots/confermation.png)
+
+#### Historique des commandes
+
+![Commandes](images/screenshots/commandes.png)
