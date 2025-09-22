@@ -77,7 +77,7 @@ Développée en PHP avec Bootstrap et une base de données MySQL.
 
 #### Confirmation de commande
 
-![Confirmation](images/screenshots/confermation.png)
+![Confirmation](images/screenshots/confirmation.png)
 
 #### Historique des commandes
 
