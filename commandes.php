@@ -42,8 +42,8 @@
             <tbody>
                 <?php
                 $status_classes = [
-                    'en attente' => 'bg-secondary-subtle text-secondary',
-                    'en cours' => 'bg-secondary-subtle text-secondary',
+                    'en attente' => 'bg-warning-subtle text-warning',
+                    'en cours' => 'bg-primary-subtle text-primary',
                     'expédiée' => 'bg-secondary-subtle text-secondary',
                     'livrée' => 'bg-success-subtle text-success',
                     'annulée' => 'badge bg-danger-subtle text-danger'

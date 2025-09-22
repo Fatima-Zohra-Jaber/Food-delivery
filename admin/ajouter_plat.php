@@ -1,8 +1,77 @@
 <?php
 require '../config.php';
+// Initialisation des variables
+$nomPlat = '';
+$categoriePlat = '';
+$typeCuisine = '';
+$prixPlat = '';
+$imagePlat = '';
+$isEdit = false;
+
 if (empty($_SESSION['admin'])) {
-    header('location:index.php');
-} else {
+  header('location:index.php');
+  exit();
+}
+
+// Si modification, charger les infos du plat
+if (isset($_GET['idPlat']) && is_numeric($_GET['idPlat'])) {
+  $isEdit = true;
+  $idPlat = intval($_GET['idPlat']);
+  $stmt = $conn->prepare('SELECT * FROM plat WHERE idPlat = :idPlat');
+  $stmt->bindValue(':idPlat', $idPlat, PDO::PARAM_INT);
+  $stmt->execute();
+  $plat = $stmt->fetch(PDO::FETCH_ASSOC);
+  if ($plat) {
+    $nomPlat = $plat['nomPlat'];
+    $categoriePlat = $plat['categoriePlat'];
+    $typeCuisine = $plat['TypeCuisine'];
+    $prixPlat = $plat['prix'];
+    $imagePlat = $plat['image'];
+  }
+}
+
+// Traitement du formulaire
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $nomPlat = $_POST['nomPlat'] ?? '';
+  $categoriePlat = $_POST['categoriePlat'] ?? '';
+  $typeCuisine = $_POST['typeCuisine'] ?? '';
+  $prixPlat = $_POST['prixPlat'] ?? '';
+  // Gestion de l'image
+  if (isset($_FILES['photoPlat']) && $_FILES['photoPlat']['error'] === UPLOAD_ERR_OK) {
+    $tmpName = $_FILES['photoPlat']['tmp_name'];
+    $fileName = basename($_FILES['photoPlat']['name']);
+    $targetPath = '../images/' . $fileName;
+    move_uploaded_file($tmpName, $targetPath);
+    $imagePlat = $fileName;
+  } else if ($isEdit) {
+    // Si modification et pas de nouvelle image, garder l'ancienne
+    $imagePlat = $imagePlat;
+  }
+  if ($isEdit) {
+    // Modification
+    $stmt = $conn->prepare('UPDATE plat SET nomPlat = :nomPlat, categoriePlat = :categoriePlat, TypeCuisine = :typeCuisine, prix = :prix, image = :image WHERE idPlat = :idPlat');
+    $stmt->bindValue(':nomPlat', $nomPlat);
+    $stmt->bindValue(':categoriePlat', $categoriePlat);
+    $stmt->bindValue(':typeCuisine', $typeCuisine);
+    $stmt->bindValue(':prix', $prixPlat);
+    $stmt->bindValue(':image', $imagePlat);
+    $stmt->bindValue(':idPlat', $idPlat, PDO::PARAM_INT);
+    $stmt->execute();
+    header('Location: plats.php');
+    exit();
+  } else {
+    // Isertion
+    $stmt = $conn->prepare('INSERT INTO plat (nomPlat, categoriePlat, TypeCuisine, prix, image) VALUES (:nomPlat, :categoriePlat, :typeCuisine, :prix, :image)');
+    $stmt->bindValue(':nomPlat', $nomPlat);
+    $stmt->bindValue(':categoriePlat', $categoriePlat);
+    $stmt->bindValue(':typeCuisine', $typeCuisine);
+    $stmt->bindValue(':prix', $prixPlat);
+    $stmt->bindValue(':image', $imagePlat);
+    $stmt->execute();
+    header('Location: plats.php');
+    exit();
+  }
+}
 ?>
 <!doctype html>
 <html lang="fr" data-bs-theme="auto">
@@ -249,62 +318,59 @@ if (empty($_SESSION['admin'])) {
   <section class="w-100">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand">Ajouter un plat</a>
+            <a class="navbar-brand">
+              <?php echo $isEdit ? 'Modifier un plat' : 'Ajouter un plat'; ?>
+             </a>
             <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-primary" type="submit">Search</button>
             </form>
         </div>
     </nav>
-    <form class="mx-5 row g-3 mt-3">
-  <div class="col-md-6">
-    <label for="nomPlat" class="form-label">Nom de plat</label>
-    <input type="text" class="form-control" id="nomPlat">
-  </div>
-  
-  <div class="col-md-6">
-    <label for="photoPlat" class="form-label">Photo de plat</label>
-    <input type="file" class="form-control" id="photoPlat">
-  </div>
- 
-  <div class="col-md-6">
-    <label for="categoriePlat" class="form-label">Catégorie</label>
-    <select id="categoriePlat" class="form-select">
-      <option selected hidden>Choisissez la catégorie</option>
-      <option>Plat principal</option>
-      <option>Dessert</option>
-      <option>Entrée</option>
-    </select>
-  </div>
-
-  <div class="col-md-6">
-    <label for="typeCuisine" class="form-label">Type de cuisine</label>
-    <select id="typeCuisine" class="form-select">
-      <option selected hidden>Choisissez le type de cuisine</option>
-      <option>Marocaine</option>
-      <option>Italienne</option>
-      <option>Chinoise</option>
-      <option>Espagnole</option>
-      <option>Francaise</option>
-    </select>
-  </div>
-  <div class="col-md-6">
-    <label for="prixPlat" class="form-label">Prix</label>
-    <input type="number" class="form-control" id="prixPlat">
-  </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
-    <button type="submit" class="btn btn-primary">Annuler</button>
-
-  </div>
-</form>
+    <form class="mx-5 row g-3 mt-3" method="post" enctype="multipart/form-data">
+      <div class="col-md-6">
+        <label for="nomPlat" class="form-label">Nom de plat</label>
+        <input type="text" class="form-control" id="nomPlat" name="nomPlat" value="<?= htmlspecialchars($nomPlat) ?>" required>
+      </div>
+      <div class="col-md-6">
+        <label for="photoPlat" class="form-label">Photo de plat</label>
+        <?php if ($isEdit && $imagePlat): ?>
+          <img src="../images/<?= htmlspecialchars($imagePlat) ?>" alt="photo" class="img-thumbnail mb-2" style="width:80px;height:80px;object-fit:cover;">
+        <?php endif; ?>
+        <input type="file" class="form-control" id="photoPlat" name="photoPlat" <?= $isEdit ? '' : 'required' ?> >
+      </div>
+      <div class="col-md-6">
+        <label for="categoriePlat" class="form-label">Catégorie</label>
+        <select id="categoriePlat" name="categoriePlat" class="form-select" required>
+          <option value="" hidden>Choisissez la catégorie</option>
+          <option value="plat principal" <?= $categoriePlat=='plat principal'?'selected':'' ?>>Plat principal</option>
+          <option value="dessert" <?= $categoriePlat=='dessert'?'selected':'' ?>>Dessert</option>
+          <option value="entrée" <?= $categoriePlat=='entrée'?'selected':'' ?>>Entrée</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="typeCuisine" class="form-label">Type de cuisine</label>
+        <select id="typeCuisine" name="typeCuisine" class="form-select" required>
+          <option value="" hidden>Choisissez le type de cuisine</option>
+          <option value="Marocaine" <?= $typeCuisine=='Marocaine'?'selected':'' ?>>Marocaine</option>
+          <option value="Italienne" <?= $typeCuisine=='Italienne'?'selected':'' ?>>Italienne</option>
+          <option value="Chinoise" <?= $typeCuisine=='Chinoise'?'selected':'' ?>>Chinoise</option>
+          <option value="Espagnole" <?= $typeCuisine=='Espagnole'?'selected':'' ?>>Espagnole</option>
+          <option value="Francaise" <?= $typeCuisine=='Francaise'?'selected':'' ?>>Francaise</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="prixPlat" class="form-label">Prix</label>
+        <input type="number" class="form-control" id="prixPlat" name="prixPlat" value="<?= htmlspecialchars($prixPlat) ?>" required>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="plats.php" class="btn btn-secondary">Annuler</a>
+      </div>
+    </form>
   </section>
 </main>
 <script src="../js/bootstrap.bundle.min.js"></script>
 
     <script src="../js/sidebars.js"></script></body>
 </html>
-
-<?php
-    }
-?>

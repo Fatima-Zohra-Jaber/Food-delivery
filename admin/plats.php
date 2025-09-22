@@ -3,22 +3,31 @@ require '../config.php';
 if (empty($_SESSION['admin'])) {
     header('location:index.php');
 } else {
-    // Utiliser $conn au lieu de $pdo
-    $perPage = 7;
-    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-    $offset = ($page - 1) * $perPage;
+  // Suppression d'un plat
+  if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+    $idPlat = intval($_GET['delete']);
+    $stmtDel = $conn->prepare('DELETE FROM plat WHERE idPlat = :idPlat');
+    $stmtDel->bindValue(':idPlat', $idPlat, PDO::PARAM_INT);
+    $stmtDel->execute();
+    header('Location: plats.php');
+    exit();
+  }
 
-    // Get total plats count
-    $stmtCount = $conn->query('SELECT COUNT(*) FROM plat');
-    $totalPlats = $stmtCount->fetchColumn();
-    $totalPages = ceil($totalPlats / $perPage);
+  $perPage = 7;
+  $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+  $offset = ($page - 1) * $perPage;
 
-    // Fetch plats for current page
-    $stmt = $conn->prepare('SELECT * FROM plat LIMIT :offset, :perPage');
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-    $stmt->bindValue(':perPage', $perPage, PDO::PARAM_INT);
-    $stmt->execute();
-    $plats = $stmt->fetchAll();
+  // Get total plats count
+  $stmtCount = $conn->query('SELECT COUNT(*) FROM plat');
+  $totalPlats = $stmtCount->fetchColumn();
+  $totalPages = ceil($totalPlats / $perPage);
+
+  // Fetch plats for current page
+  $stmt = $conn->prepare('SELECT * FROM plat LIMIT :offset, :perPage');
+  $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+  $stmt->bindValue(':perPage', $perPage, PDO::PARAM_INT);
+  $stmt->execute();
+  $plats = $stmt->fetchAll();
 ?>
 <!doctype html>
 <html lang="fr" data-bs-theme="auto">
@@ -214,11 +223,10 @@ if (empty($_SESSION['admin'])) {
                             echo "<td>{$plat['TypeCuisine']}</td>";
                             echo "<td>{$plat['prix']} Dh</td>";     
                             echo '<td class="text-center">
-                                      <a href="#" class="btn btn-outline-primary btn-sm me-1" title="Voir"><i class="bi bi-eye"></i></a>
-                                      <a href="#" class="btn btn-outline-warning btn-sm me-1" title="Modifier"><i class="bi bi-pencil"></i></a>
-                                      <button class="btn btn-outline-danger btn-sm" title="Supprimer"><i class="bi bi-trash"></i></button>
+                                    <a href="#" class="btn btn-outline-primary btn-sm me-1" title="Voir"><i class="bi bi-eye"></i></a>
+                                    <a href="ajouter_plat.php?idPlat='.$plat['idPlat'].'" class="btn btn-outline-warning btn-sm me-1" title="Modifier"><i class="bi bi-pencil"></i></a>
+                                    <a href="plats.php?delete='.$plat['idPlat'].'" class="btn btn-outline-danger btn-sm" title="Supprimer" onclick="return confirm(\'Voulez-vous vraiment supprimer ce plat ?\');"><i class="bi bi-trash"></i></a>
                                   </td>';                  
-                        // echo "<td><a href='commandes.php?idCmd={$cmd['idCmd']}'>Annuler</a></td>";
                         echo "</tr>";
                     }
 

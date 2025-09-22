@@ -199,7 +199,6 @@ if (empty($_SESSION['admin'])) {
                 <th scope="col">Non</th>
                 <th scope="col">Prénom</th>
                 <th scope="col">N° téléphone</th>
-                <th scope="col">Action</th>
             </tr>
         </thead>
      
@@ -208,16 +207,10 @@ if (empty($_SESSION['admin'])) {
                 
                     foreach($clients as $client){
                         echo "<tr>";
-                            echo "<td>{$client['idClient']}</td>";
-                            echo "<td>{$client['nomCl']}</td>";
-                            echo "<td>{$client['prenomCl']}</td>";
-                            echo "<td>{$client['telCl']}</td>";    
-                            echo '<td>
-                                    <a href="#" class="btn btn-outline-primary btn-sm me-1" title="Voir"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="btn btn-outline-warning btn-sm me-1" title="Modifier"><i class="bi bi-pencil"></i></a>
-                                    <button class="btn btn-outline-danger btn-sm" title="Supprimer"><i class="bi bi-trash"></i></button>
-                                 </td>';                  
-                        // echo "<td><a href='commandes.php?idCmd={$cmd['idCmd']}'>Annuler</a></td>";
+                          echo "<td>{$client['idClient']}</td>";
+                          echo "<td>{$client['nomCl']}</td>";
+                          echo "<td>{$client['prenomCl']}</td>";
+                          echo "<td>{$client['telCl']}</td>";    
                         echo "</tr>";
                     }
 

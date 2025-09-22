@@ -9,7 +9,7 @@
     }
     if(isset($_GET['idClient'])){
         // Récupérer le dernier idCmd 
-        $sqlIdCmd = "SELECT idCmd FROM commande ORDER BY dateCmd DESC LIMIT 1";
+        $sqlIdCmd = "SELECT idCmd FROM commande ORDER BY dateCmd LIMIT 1";
         $stmIdCmd = $conn->query($sqlIdCmd);
         $id = $stmIdCmd->fetch(PDO::FETCH_ASSOC);
         // Calculer le prochain idCmd
@@ -69,19 +69,19 @@
             if (!empty($_SESSION['panier'])):
                 foreach($_SESSION['panier'] as $index => $plat): ?>
                 <tr>
-                    <td>
-                        <img src="images/<?=$plat['image']?>" class="img-fluid rounded-3" style="width: 110px;">
+                    <td class="align-middle">
+                        <img src="images/<?= $plat['image'] ?>" class="rounded-3" style="width:80px; height:80px; object-fit:cover;">
                     </td>
                     <td class="align-middle">
-                    <p class="mb-0" style="font-weight: 500;"> <?=htmlspecialchars($plat['nomPlat'])?> </p>
+                        <p class="mb-0 fw-semibold"> <?= htmlspecialchars($plat['nomPlat']) ?> </p>
                     </td>
                     <td class="align-middle">
-                    <p class="mb-0" style="font-weight: 500;"> <?=htmlspecialchars($plat['quantite'])?></p>
+                        <p class="mb-0 fw-semibold"> <?= htmlspecialchars($plat['quantite']) ?> </p>
                     </td>
                     <td class="align-middle">
-                    <p class="mb-0" style="font-weight: 500;"> <?=htmlspecialchars($plat['prix'])?>Dh</p>
+                        <p class="mb-0 fw-semibold"> <?= htmlspecialchars($plat['prix']) ?> Dh</p>
                     </td>
-                </tr> 
+                </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
           </tbody>

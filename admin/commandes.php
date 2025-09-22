@@ -1,34 +1,45 @@
 <?php
-    require '../config.php';
-    if (empty($_SESSION['admin'])) {
-        header('location:index.php');
-    } else {
+  require '../config.php';
+  if (empty($_SESSION['admin'])) {
+    header('location:index.php');
+  } else {
 
-        if(isset($_POST['search']) && !empty($_POST['date'])) {
-            $date = $_POST['date'];
-            $sql = "SELECT cmd.idCmd, cmd.dateCmd, cmd.Statut, p.nomPlat, p.categoriePlat,
-                        p.TypeCuisine, p.prix, cmd_p.qte 
-                    FROM commande cmd 
-                    JOIN commande_plat cmd_p ON cmd.idCmd = cmd_p.idCmd 
-                    JOIN plat p ON p.idPlat = cmd_p.idPlat 
-                    WHERE DATE(cmd.dateCmd) = :dateCmd 
-                    ORDER BY cmd_p.idCmd";
-            
-            $stmtCmds = $conn->prepare($sql);
-            $stmtCmds->bindParam(':dateCmd', $date);
-        } else {
-            $sql = "SELECT cmd.idCmd, cmd.dateCmd, cmd.Statut, p.nomPlat, p.categoriePlat,
-                        p.TypeCuisine, p.prix, cmd_p.qte 
-                    FROM commande cmd 
-                    JOIN commande_plat cmd_p ON cmd.idCmd = cmd_p.idCmd 
-                    JOIN plat p ON p.idPlat = cmd_p.idPlat 
-                    ORDER BY cmd_p.idCmd";
-            
-            $stmtCmds = $conn->prepare($sql);
-        }
-        
-        $stmtCmds->execute();
-        $commandes = $stmtCmds->fetchAll(PDO::FETCH_ASSOC);
+    // Traitement de la mise à jour du statut d'une commande
+    if (isset($_POST['update_statut']) && isset($_POST['idCmd']) && isset($_POST['new_statut'])) {
+      $idCmd = $_POST['idCmd'];
+      $newStatut = $_POST['new_statut'];
+      $stmtUpdate = $conn->prepare('UPDATE commande SET Statut = :statut WHERE idCmd = :idCmd');
+      $stmtUpdate->bindParam(':statut', $newStatut);
+      $stmtUpdate->bindParam(':idCmd', $idCmd);
+      $stmtUpdate->execute();
+      header('Location: commandes.php');
+      exit();
+    }
+
+    if(isset($_POST['search']) && !empty($_POST['date'])) {
+      $date = $_POST['date'];
+      $sql = "SELECT cmd.idCmd, cmd.dateCmd, cmd.Statut, p.nomPlat, p.categoriePlat,
+                  p.TypeCuisine, p.prix, cmd_p.qte 
+              FROM commande cmd 
+              JOIN commande_plat cmd_p ON cmd.idCmd = cmd_p.idCmd 
+              JOIN plat p ON p.idPlat = cmd_p.idPlat 
+              WHERE DATE(cmd.dateCmd) = :dateCmd 
+              ORDER BY cmd_p.idCmd";
+      
+      $stmtCmds = $conn->prepare($sql);
+      $stmtCmds->bindParam(':dateCmd', $date);
+    } else {
+      $sql = "SELECT cmd.idCmd, cmd.dateCmd, cmd.Statut, p.nomPlat, p.categoriePlat,
+                  p.TypeCuisine, p.prix, cmd_p.qte 
+              FROM commande cmd 
+              JOIN commande_plat cmd_p ON cmd.idCmd = cmd_p.idCmd 
+              JOIN plat p ON p.idPlat = cmd_p.idPlat 
+              ORDER BY cmd_p.idCmd";
+      
+      $stmtCmds = $conn->prepare($sql);
+    }       
+    $stmtCmds->execute();
+    $commandes = $stmtCmds->fetchAll(PDO::FETCH_ASSOC);
     
 ?>
 <!doctype html>
@@ -47,11 +58,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
-<!-- <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-<link rel="stylesheet" href="../css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/admin.css">
+    <!-- <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
 
- 
     <!-- Custom styles for this template -->
     <link href="../css/sidebars.css" rel="stylesheet">
   </head>
@@ -198,7 +208,7 @@
             </form>
         </div>
     </nav>
-    <table class="table mx-auto mt-5 table-striped table-bordered small">
+    <table class="table mx-auto mt-3 table-striped table-bordered small">
         <thead>
             <tr>
                 <th scope="col">N° Commande</th>
@@ -233,15 +243,25 @@
                             echo "<td>{$cmd['qte']}</td>";
                             $statut = $cmd['Statut'];
                             $classe_css = $status_classes[$statut];
-                            echo "<td><span class='badge $classe_css'>{$statut}</span></td>";     
+                            echo "<td><span class='badge $classe_css'>{$statut}</span></td>"; 
+                            // Mettre à jour le statut d'une commande (en attente, en cours, expédiée, livrée, annulée).
                             echo '<td>
-                                    <a href="" class="ms-3 text-secondary-emphasis"><i class="bi bi-pencil" ></i></a>
+                                    <form method="post" class="d-flex align-items-center gap-2">
+                                      <input type="hidden" name="idCmd" value="'.$cmd['idCmd'].'">
+                                      <select name="new_statut" class="form-select form-select-sm" style="width:120px;">
+                                        <option '.($statut=='en attente'?'selected':'').' value="en attente">En attente</option>
+                                        <option '.($statut=='en cours'?'selected':'').' value="en cours">En cours</option>
+                                        <option '.($statut=='expédiée'?'selected':'').' value="expédiée">Expédiée</option>
+                                        <option '.($statut=='livrée'?'selected':'').' value="livrée">Livrée</option>
+                                        <option '.($statut=='annulée'?'selected':'').' value="annulée">Annulée</option>
+                                      </select>
+                                      <button type="submit" name="update_statut" class="btn btn-outline-success btn-sm" title="Mettre à jour"><i class="bi bi-check2"></i></button>
+                                    </form>
                                  </td>';                  
                         echo "</tr>";
                     }
 
                 ?>
-<!-- Mettre à jour le statut d'une commande (en attente, en cours, expédiée, livrée, annulée). -->
 
             </tbody>
        
